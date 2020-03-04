@@ -1,0 +1,15 @@
+mode: count
+go_test/test2/src/lib/lib.go:7.28,10.2 2 0
+go_test/test2/src/main.go:8.60,11.2 1 0
+go_test/test2/src/main.go:12.22,15.14 3 0
+go_test/test2/src/main.go:15.14,17.3 1 0
+go_test/test2/src/main.go:19.13,23.2 3 0
+go_test/test2/src/biz/biz.go:9.39,11.2 1 1
+go_test/test2/src/biz/biz.go:12.29,14.2 1 0
+go_test/test2/src/biz/biz.go:9.39,11.2 1 0
+go_test/test2/src/biz/biz.go:12.29,14.2 1 0
+go_test/test2/src/main.go:8.60,11.2 1 0
+go_test/test2/src/main.go:12.22,15.14 3 0
+go_test/test2/src/main.go:15.14,17.3 1 0
+go_test/test2/src/main.go:19.13,23.2 3 0
+go_test/test2/src/lib/lib.go:7.28,10.2 2 1
