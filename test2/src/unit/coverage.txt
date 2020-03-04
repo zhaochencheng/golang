@@ -1,7 +1,0 @@
-go_test/test2/src/biz/biz.go:9:		formatTwoNumber	100.0%
-go_test/test2/src/biz/biz.go:12:	GetRandomPair	0.0%
-go_test/test2/src/lib/lib.go:7:		GetRandomNumber	100.0%
-go_test/test2/src/main.go:8:		serverHandler	0.0%
-go_test/test2/src/main.go:12:		runHttpServer	0.0%
-go_test/test2/src/main.go:19:		main		0.0%
-total:					(statements)	25.0%
