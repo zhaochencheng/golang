@@ -12,3 +12,6 @@ func formatTwoNumber(a, b int) string {
 func GetRandomPair() string {
 	return formatTwoNumber(lib.GetRandomNumber(), lib.GetRandomNumber())
 }
+func formatThreeNumber(a, b, c int)  string{
+	return fmt.Sprintf("%d-%d+%d\n", a, b , c)
+}

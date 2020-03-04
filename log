@@ -1,0 +1,1115 @@
+diff --git a/test2/src/binary.test b/test2/src/binary.test
+new file mode 100644
+index 0000000..3584717
+Binary files /dev/null and b/test2/src/binary.test differ
+diff --git a/test2/src/biz/biz.go b/test2/src/biz/biz.go
+new file mode 100644
+index 0000000..9a876ec
+--- /dev/null
++++ b/test2/src/biz/biz.go
+@@ -0,0 +1,14 @@
++package biz
++
++import (
++	"fmt"
++	"go_test/test2/src/lib"
++
++	//"lib"
++)
++func formatTwoNumber(a, b int) string {
++	return fmt.Sprintf("%d-%d\n", a, b)
++}
++func GetRandomPair() string {
++	return formatTwoNumber(lib.GetRandomNumber(), lib.GetRandomNumber())
++}
+\ No newline at end of file
+diff --git a/test2/src/biz/biz_test.go b/test2/src/biz/biz_test.go
+new file mode 100644
+index 0000000..95c695a
+--- /dev/null
++++ b/test2/src/biz/biz_test.go
+@@ -0,0 +1,16 @@
++package biz
++
++import (
++	"testing"
++)
++
++func TestGetRandomPair(t *testing.T) {
++	str := formatTwoNumber(11,22)
++	if str == "11-22\n"{
++		t.Log("formatTwoNumber pas")
++
++	} else {
++		t.Error("formatTwoNumber fail")
++
++	}
++}
+diff --git a/test2/src/coverage.html b/test2/src/coverage.html
+new file mode 100644
+index 0000000..0f7e2c3
+--- /dev/null
++++ b/test2/src/coverage.html
+@@ -0,0 +1,191 @@
++
++<!DOCTYPE html>
++<html>
++	<head>
++		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
++		<style>
++			body {
++				background: black;
++				color: rgb(80, 80, 80);
++			}
++			body, pre, #legend span {
++				font-family: Menlo, monospace;
++				font-weight: bold;
++			}
++			#topbar {
++				background: black;
++				position: fixed;
++				top: 0; left: 0; right: 0;
++				height: 42px;
++				border-bottom: 1px solid rgb(80, 80, 80);
++			}
++			#content {
++				margin-top: 50px;
++			}
++			#nav, #legend {
++				float: left;
++				margin-left: 10px;
++			}
++			#legend {
++				margin-top: 12px;
++			}
++			#nav {
++				margin-top: 10px;
++			}
++			#legend span {
++				margin: 0 5px;
++			}
++			.cov0 { color: rgb(192, 0, 0) }
++.cov1 { color: rgb(128, 128, 128) }
++.cov2 { color: rgb(116, 140, 131) }
++.cov3 { color: rgb(104, 152, 134) }
++.cov4 { color: rgb(92, 164, 137) }
++.cov5 { color: rgb(80, 176, 140) }
++.cov6 { color: rgb(68, 188, 143) }
++.cov7 { color: rgb(56, 200, 146) }
++.cov8 { color: rgb(44, 212, 149) }
++.cov9 { color: rgb(32, 224, 152) }
++.cov10 { color: rgb(20, 236, 155) }
++
++		</style>
++	</head>
++	<body>
++		<div id="topbar">
++			<div id="nav">
++				<select id="files">
++				
++				<option value="file0">go_test/test2/src/biz/biz.go (50.0%)</option>
++				
++				<option value="file1">go_test/test2/src/lib/lib.go (100.0%)</option>
++				
++				<option value="file2">go_test/test2/src/main.go (0.0%)</option>
++				
++				</select>
++			</div>
++			<div id="legend">
++				<span>not tracked</span>
++			
++				<span class="cov0">no coverage</span>
++				<span class="cov1">low coverage</span>
++				<span class="cov2">*</span>
++				<span class="cov3">*</span>
++				<span class="cov4">*</span>
++				<span class="cov5">*</span>
++				<span class="cov6">*</span>
++				<span class="cov7">*</span>
++				<span class="cov8">*</span>
++				<span class="cov9">*</span>
++				<span class="cov10">high coverage</span>
++			
++			</div>
++		</div>
++		<div id="content">
++		
++		<pre class="file" id="file0" style="display: none">package biz
++
++import (
++        "fmt"
++        "go_test/test2/src/lib"
++
++        //"lib"
++)
++func formatTwoNumber(a, b int) string <span class="cov8" title="1">{
++        return fmt.Sprintf("%d-%d\n", a, b)
++}</span>
++func GetRandomPair() string <span class="cov0" title="0">{
++        return formatTwoNumber(lib.GetRandomNumber(), lib.GetRandomNumber())
++}</pre>
++		
++		<pre class="file" id="file1" style="display: none">package lib
++
++import (
++        "math/rand"
++        "time"
++)
++func GetRandomNumber() int <span class="cov8" title="1">{
++        rand.Seed(time.Now().UnixNano())
++        return rand.Int()
++}</pre>
++		
++		<pre class="file" id="file2" style="display: none">package main
++import (
++        //"biz"
++        "context"
++        "fmt"
++        "go_test/test2/src/biz"
++        "net/http"
++        "os"
++        "os/signal"
++        "syscall"
++)
++// gracefully exit http server
++var done = make(chan bool, 1)      // 用于同步main线程和handleExitSignal线程
++var quit = make(chan os.Signal, 1) // 用于接收信号量
++func handleExitSignal(s *http.Server) <span class="cov0" title="0">{
++        // 监听下面两个信号量
++        signal.Notify(quit, syscall.SIGTERM) // kill
++        signal.Notify(quit, syscall.SIGINT)  // ctrl + c
++        // 阻塞等待信号量
++        &lt;-quit
++        // 关闭server，引起ListenAndServe函数返回
++        if err := s.Shutdown(context.Background()); err != nil </span><span class="cov0" title="0">{
++                fmt.Printf("ShutDown Error: %v", err)
++        }</span>
++        // 通知主线程handleExitSignal结束了
++        <span class="cov0" title="0">close(done)</span>
++}
++func serverHandler(w http.ResponseWriter, r *http.Request) <span class="cov0" title="0">{
++        w.Write([]byte(biz.GetRandomPair()))
++}</span>
++func runHttpServer() <span class="cov0" title="0">{
++        http.HandleFunc("/randompair", serverHandler)
++        server := &amp;http.Server{Addr: ":9999", Handler: nil}
++        go handleExitSignal(server)
++        e := server.ListenAndServe()
++        if e != nil </span><span class="cov0" title="0">{
++                if http.ErrServerClosed == e </span><span class="cov0" title="0">{
++                        fmt.Println("server closed")
++                }</span> else<span class="cov0" title="0"> {
++                        fmt.Println("server error")
++                        os.Exit(1)
++                }</span>
++        }
++        // 等待handleExitSignal完成
++        <span class="cov0" title="0">&lt;-done</span>
++}
++func main() <span class="cov0" title="0">{
++        fmt.Println("start server")
++        runHttpServer()
++        fmt.Println("stop server")
++}</pre>
++		
++		</div>
++	</body>
++	<script>
++	(function() {
++		var files = document.getElementById('files');
++		var visible;
++		files.addEventListener('change', onChange, false);
++		function select(part) {
++			if (visible)
++				visible.style.display = 'none';
++			visible = document.getElementById(part);
++			if (!visible)
++				return;
++			files.value = part;
++			visible.style.display = 'block';
++			location.hash = part;
++		}
++		function onChange() {
++			select(files.value);
++			window.scrollTo(0, 0);
++		}
++		if (location.hash != "") {
++			select(location.hash.substr(1));
++		}
++		if (!visible) {
++			select("file0");
++		}
++	})();
++	</script>
++</html>
+diff --git a/test2/src/coverage.out b/test2/src/coverage.out
+new file mode 100644
+index 0000000..861daa8
+--- /dev/null
++++ b/test2/src/coverage.out
+@@ -0,0 +1,41 @@
++mode: count
++文件名:起始行.第几列,结束行.第几列 有效代码行数 覆盖次数
++go_test/test2/src/biz/biz.go:9.39,11.2 1 1
++go_test/test2/src/biz/biz.go:12.29,14.2 1 0
++go_test/test2/src/lib/lib.go:7.28,10.2 2 0
++go_test/test2/src/main.go:15.39,22.57 4 0
++go_test/test2/src/main.go:26.2,26.13 1 0
++go_test/test2/src/main.go:22.57,24.3 1 0
++go_test/test2/src/main.go:28.60,30.2 1 0
++go_test/test2/src/main.go:31.22,36.14 5 0
++go_test/test2/src/main.go:45.2,45.8 1 0
++go_test/test2/src/main.go:36.14,37.32 1 0
++go_test/test2/src/main.go:37.32,39.4 1 0
++go_test/test2/src/main.go:39.9,42.4 2 0
++go_test/test2/src/main.go:47.13,51.2 3 0
++go_test/test2/src/biz/biz.go:9.39,11.2 1 0
++go_test/test2/src/biz/biz.go:12.29,14.2 1 0
++go_test/test2/src/main.go:15.39,22.57 4 0
++go_test/test2/src/main.go:26.2,26.13 1 0
++go_test/test2/src/main.go:22.57,24.3 1 0
++go_test/test2/src/main.go:28.60,30.2 1 0
++go_test/test2/src/main.go:31.22,36.14 5 0
++go_test/test2/src/main.go:45.2,45.8 1 0
++go_test/test2/src/main.go:36.14,37.32 1 0
++go_test/test2/src/main.go:37.32,39.4 1 0
++go_test/test2/src/main.go:39.9,42.4 2 0
++go_test/test2/src/main.go:47.13,51.2 3 0
++go_test/test2/src/lib/lib.go:7.28,10.2 2 1
++go_test/test2/src/main.go:15.39,22.57 4 0
++go_test/test2/src/main.go:26.2,26.13 1 0
++go_test/test2/src/main.go:22.57,24.3 1 0
++go_test/test2/src/main.go:28.60,30.2 1 0
++go_test/test2/src/main.go:31.22,36.14 5 0
++go_test/test2/src/main.go:45.2,45.8 1 0
++go_test/test2/src/main.go:36.14,37.32 1 0
++go_test/test2/src/main.go:37.32,39.4 1 0
++go_test/test2/src/main.go:39.9,42.4 2 0
++go_test/test2/src/main.go:47.13,51.2 3 0
++go_test/test2/src/lib/lib.go:7.28,10.2 2 0
++go_test/test2/src/biz/biz.go:9.39,11.2 1 0
++go_test/test2/src/biz/biz.go:12.29,14.2 1 0
+diff --git a/test2/src/lib/lib.go b/test2/src/lib/lib.go
+new file mode 100644
+index 0000000..9a74d44
+--- /dev/null
++++ b/test2/src/lib/lib.go
+@@ -0,0 +1,10 @@
++package lib
++
++import (
++	"math/rand"
++	"time"
++)
++func GetRandomNumber() int {
++	rand.Seed(time.Now().UnixNano())
++	return rand.Int()
++}
+\ No newline at end of file
+diff --git a/test2/src/lib/lib_test.go b/test2/src/lib/lib_test.go
+new file mode 100644
+index 0000000..0159d5a
+--- /dev/null
++++ b/test2/src/lib/lib_test.go
+@@ -0,0 +1,14 @@
++package lib
++
++import (
++	"testing"
++)
++
++func TestGetRandomNumber(t *testing.T) {
++	if GetRandomNumber() >= 0 {
++		t.Log("GetRandomNumber pass")
++
++	} else {
++		t.Error("GetRandomNumber fail")
++	}
++}
+\ No newline at end of file
+diff --git a/test2/src/main.go b/test2/src/main.go
+new file mode 100644
+index 0000000..61755f2
+--- /dev/null
++++ b/test2/src/main.go
+@@ -0,0 +1,51 @@
++package main
++import (
++	//"biz"
++	"context"
++	"fmt"
++	"go_test/test2/src/biz"
++	"net/http"
++	"os"
++	"os/signal"
++	"syscall"
++)
++// gracefully exit http server
++var done = make(chan bool, 1)      // 用于同步main线程和handleExitSignal线程
++var quit = make(chan os.Signal, 1) // 用于接收信号量
++func handleExitSignal(s *http.Server) {
++	// 监听下面两个信号量
++	signal.Notify(quit, syscall.SIGTERM) // kill
++	signal.Notify(quit, syscall.SIGINT)  // ctrl + c
++	// 阻塞等待信号量
++	<-quit
++	// 关闭server，引起ListenAndServe函数返回
++	if err := s.Shutdown(context.Background()); err != nil {
++		fmt.Printf("ShutDown Error: %v", err)
++	}
++	// 通知主线程handleExitSignal结束了
++	close(done)
++}
++func serverHandler(w http.ResponseWriter, r *http.Request) {
++	w.Write([]byte(biz.GetRandomPair()))
++}
++func runHttpServer() {
++	http.HandleFunc("/randompair", serverHandler)
++	server := &http.Server{Addr: ":9999", Handler: nil}
++	go handleExitSignal(server)
++	e := server.ListenAndServe()
++	if e != nil {
++		if http.ErrServerClosed == e {
++			fmt.Println("server closed")
++		} else {
++			fmt.Println("server error")
++			os.Exit(1)
++		}
++	}
++	// 等待handleExitSignal完成
++	<-done
++}
++func main() {
++	fmt.Println("start server")
++	runHttpServer()
++	fmt.Println("stop server")
++}
+\ No newline at end of file
+diff --git a/test2/src/main_test.go b/test2/src/main_test.go
+new file mode 100644
+index 0000000..dfbd13e
+--- /dev/null
++++ b/test2/src/main_test.go
+@@ -0,0 +1,18 @@
++package main
++
++import (
++	"flag"
++	"testing"
++)
++
++var systemTest *bool
++
++func init() {
++	systemTest = flag.Bool("SystemTest", false, "Set to true when running system tests")
++}
++
++func TestMain(t *testing.T) {
++	if *systemTest {
++		main()
++	}
++}
+diff --git a/test2/src/system.html b/test2/src/system.html
+new file mode 100644
+index 0000000..de77fd8
+--- /dev/null
++++ b/test2/src/system.html
+@@ -0,0 +1,191 @@
++
++<!DOCTYPE html>
++<html>
++	<head>
++		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
++		<style>
++			body {
++				background: black;
++				color: rgb(80, 80, 80);
++			}
++			body, pre, #legend span {
++				font-family: Menlo, monospace;
++				font-weight: bold;
++			}
++			#topbar {
++				background: black;
++				position: fixed;
++				top: 0; left: 0; right: 0;
++				height: 42px;
++				border-bottom: 1px solid rgb(80, 80, 80);
++			}
++			#content {
++				margin-top: 50px;
++			}
++			#nav, #legend {
++				float: left;
++				margin-left: 10px;
++			}
++			#legend {
++				margin-top: 12px;
++			}
++			#nav {
++				margin-top: 10px;
++			}
++			#legend span {
++				margin: 0 5px;
++			}
++			.cov0 { color: rgb(192, 0, 0) }
++.cov1 { color: rgb(128, 128, 128) }
++.cov2 { color: rgb(116, 140, 131) }
++.cov3 { color: rgb(104, 152, 134) }
++.cov4 { color: rgb(92, 164, 137) }
++.cov5 { color: rgb(80, 176, 140) }
++.cov6 { color: rgb(68, 188, 143) }
++.cov7 { color: rgb(56, 200, 146) }
++.cov8 { color: rgb(44, 212, 149) }
++.cov9 { color: rgb(32, 224, 152) }
++.cov10 { color: rgb(20, 236, 155) }
++
++		</style>
++	</head>
++	<body>
++		<div id="topbar">
++			<div id="nav">
++				<select id="files">
++				
++				<option value="file0">go_test/test2/src/biz/biz.go (100.0%)</option>
++				
++				<option value="file1">go_test/test2/src/lib/lib.go (100.0%)</option>
++				
++				<option value="file2">go_test/test2/src/main.go (85.0%)</option>
++				
++				</select>
++			</div>
++			<div id="legend">
++				<span>not tracked</span>
++			
++				<span class="cov0">no coverage</span>
++				<span class="cov1">low coverage</span>
++				<span class="cov2">*</span>
++				<span class="cov3">*</span>
++				<span class="cov4">*</span>
++				<span class="cov5">*</span>
++				<span class="cov6">*</span>
++				<span class="cov7">*</span>
++				<span class="cov8">*</span>
++				<span class="cov9">*</span>
++				<span class="cov10">high coverage</span>
++			
++			</div>
++		</div>
++		<div id="content">
++		
++		<pre class="file" id="file0" style="display: none">package biz
++
++import (
++        "fmt"
++        "go_test/test2/src/lib"
++
++        //"lib"
++)
++func formatTwoNumber(a, b int) string <span class="cov10" title="5">{
++        return fmt.Sprintf("%d-%d\n", a, b)
++}</span>
++func GetRandomPair() string <span class="cov10" title="5">{
++        return formatTwoNumber(lib.GetRandomNumber(), lib.GetRandomNumber())
++}</pre>
++		
++		<pre class="file" id="file1" style="display: none">package lib
++
++import (
++        "math/rand"
++        "time"
++)
++func GetRandomNumber() int <span class="cov10" title="10">{
++        rand.Seed(time.Now().UnixNano())
++        return rand.Int()
++}</pre>
++		
++		<pre class="file" id="file2" style="display: none">package main
++import (
++        //"biz"
++        "context"
++        "fmt"
++        "go_test/test2/src/biz"
++        "net/http"
++        "os"
++        "os/signal"
++        "syscall"
++)
++// gracefully exit http server
++var done = make(chan bool, 1)      // 用于同步main线程和handleExitSignal线程
++var quit = make(chan os.Signal, 1) // 用于接收信号量
++func handleExitSignal(s *http.Server) <span class="cov1" title="1">{
++        // 监听下面两个信号量
++        signal.Notify(quit, syscall.SIGTERM) // kill
++        signal.Notify(quit, syscall.SIGINT)  // ctrl + c
++        // 阻塞等待信号量
++        &lt;-quit
++        // 关闭server，引起ListenAndServe函数返回
++        if err := s.Shutdown(context.Background()); err != nil </span><span class="cov0" title="0">{
++                fmt.Printf("ShutDown Error: %v", err)
++        }</span>
++        // 通知主线程handleExitSignal结束了
++        <span class="cov1" title="1">close(done)</span>
++}
++func serverHandler(w http.ResponseWriter, r *http.Request) <span class="cov10" title="5">{
++        w.Write([]byte(biz.GetRandomPair()))
++}</span>
++func runHttpServer() <span class="cov1" title="1">{
++        http.HandleFunc("/randompair", serverHandler)
++        server := &amp;http.Server{Addr: ":9999", Handler: nil}
++        go handleExitSignal(server)
++        e := server.ListenAndServe()
++        if e != nil </span><span class="cov1" title="1">{
++                if http.ErrServerClosed == e </span><span class="cov1" title="1">{
++                        fmt.Println("server closed")
++                }</span> else<span class="cov0" title="0"> {
++                        fmt.Println("server error")
++                        os.Exit(1)
++                }</span>
++        }
++        // 等待handleExitSignal完成
++        <span class="cov1" title="1">&lt;-done</span>
++}
++func main() <span class="cov1" title="1">{
++        fmt.Println("start server")
++        runHttpServer()
++        fmt.Println("stop server")
++}</pre>
++		
++		</div>
++	</body>
++	<script>
++	(function() {
++		var files = document.getElementById('files');
++		var visible;
++		files.addEventListener('change', onChange, false);
++		function select(part) {
++			if (visible)
++				visible.style.display = 'none';
++			visible = document.getElementById(part);
++			if (!visible)
++				return;
++			files.value = part;
++			visible.style.display = 'block';
++			location.hash = part;
++		}
++		function onChange() {
++			select(files.value);
++			window.scrollTo(0, 0);
++		}
++		if (location.hash != "") {
++			select(location.hash.substr(1));
++		}
++		if (!visible) {
++			select("file0");
++		}
++	})();
++	</script>
++</html>
+diff --git a/test2/src/system.out b/test2/src/system.out
+new file mode 100644
+index 0000000..e86f5ae
+--- /dev/null
++++ b/test2/src/system.out
+@@ -0,0 +1,14 @@
++mode: count
++go_test/test2/src/lib/lib.go:7.28,10.2 2 10
++go_test/test2/src/biz/biz.go:9.39,11.2 1 5
++go_test/test2/src/biz/biz.go:12.29,14.2 1 5
++go_test/test2/src/main.go:15.39,22.57 4 1
++go_test/test2/src/main.go:26.2,26.13 1 1
++go_test/test2/src/main.go:22.57,24.3 1 0
++go_test/test2/src/main.go:28.60,30.2 1 5
++go_test/test2/src/main.go:31.22,36.14 5 1
++go_test/test2/src/main.go:45.2,45.8 1 1
++go_test/test2/src/main.go:36.14,37.32 1 1
++go_test/test2/src/main.go:37.32,39.4 1 1
++go_test/test2/src/main.go:39.9,42.4 2 0
++go_test/test2/src/main.go:47.13,51.2 3 1
+diff --git a/test2/src/total.html b/test2/src/total.html
+new file mode 100644
+index 0000000..90991de
+--- /dev/null
++++ b/test2/src/total.html
+@@ -0,0 +1,191 @@
++
++<!DOCTYPE html>
++<html>
++	<head>
++		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
++		<style>
++			body {
++				background: black;
++				color: rgb(80, 80, 80);
++			}
++			body, pre, #legend span {
++				font-family: Menlo, monospace;
++				font-weight: bold;
++			}
++			#topbar {
++				background: black;
++				position: fixed;
++				top: 0; left: 0; right: 0;
++				height: 42px;
++				border-bottom: 1px solid rgb(80, 80, 80);
++			}
++			#content {
++				margin-top: 50px;
++			}
++			#nav, #legend {
++				float: left;
++				margin-left: 10px;
++			}
++			#legend {
++				margin-top: 12px;
++			}
++			#nav {
++				margin-top: 10px;
++			}
++			#legend span {
++				margin: 0 5px;
++			}
++			.cov0 { color: rgb(192, 0, 0) }
++.cov1 { color: rgb(128, 128, 128) }
++.cov2 { color: rgb(116, 140, 131) }
++.cov3 { color: rgb(104, 152, 134) }
++.cov4 { color: rgb(92, 164, 137) }
++.cov5 { color: rgb(80, 176, 140) }
++.cov6 { color: rgb(68, 188, 143) }
++.cov7 { color: rgb(56, 200, 146) }
++.cov8 { color: rgb(44, 212, 149) }
++.cov9 { color: rgb(32, 224, 152) }
++.cov10 { color: rgb(20, 236, 155) }
++
++		</style>
++	</head>
++	<body>
++		<div id="topbar">
++			<div id="nav">
++				<select id="files">
++				
++				<option value="file0">go_test/test2/src/biz/biz.go (100.0%)</option>
++				
++				<option value="file1">go_test/test2/src/lib/lib.go (100.0%)</option>
++				
++				<option value="file2">go_test/test2/src/main.go (85.0%)</option>
++				
++				</select>
++			</div>
++			<div id="legend">
++				<span>not tracked</span>
++			
++				<span class="cov0">no coverage</span>
++				<span class="cov1">low coverage</span>
++				<span class="cov2">*</span>
++				<span class="cov3">*</span>
++				<span class="cov4">*</span>
++				<span class="cov5">*</span>
++				<span class="cov6">*</span>
++				<span class="cov7">*</span>
++				<span class="cov8">*</span>
++				<span class="cov9">*</span>
++				<span class="cov10">high coverage</span>
++			
++			</div>
++		</div>
++		<div id="content">
++		
++		<pre class="file" id="file0" style="display: none">package biz
++
++import (
++        "fmt"
++        "go_test/test2/src/lib"
++
++        //"lib"
++)
++func formatTwoNumber(a, b int) string <span class="cov10" title="6">{
++        return fmt.Sprintf("%d-%d\n", a, b)
++}</span>
++func GetRandomPair() string <span class="cov9" title="5">{
++        return formatTwoNumber(lib.GetRandomNumber(), lib.GetRandomNumber())
++}</pre>
++		
++		<pre class="file" id="file1" style="display: none">package lib
++
++import (
++        "math/rand"
++        "time"
++)
++func GetRandomNumber() int <span class="cov10" title="11">{
++        rand.Seed(time.Now().UnixNano())
++        return rand.Int()
++}</pre>
++		
++		<pre class="file" id="file2" style="display: none">package main
++import (
++        //"biz"
++        "context"
++        "fmt"
++        "go_test/test2/src/biz"
++        "net/http"
++        "os"
++        "os/signal"
++        "syscall"
++)
++// gracefully exit http server
++var done = make(chan bool, 1)      // 用于同步main线程和handleExitSignal线程
++var quit = make(chan os.Signal, 1) // 用于接收信号量
++func handleExitSignal(s *http.Server) <span class="cov1" title="1">{
++        // 监听下面两个信号量
++        signal.Notify(quit, syscall.SIGTERM) // kill
++        signal.Notify(quit, syscall.SIGINT)  // ctrl + c
++        // 阻塞等待信号量
++        &lt;-quit
++        // 关闭server，引起ListenAndServe函数返回
++        if err := s.Shutdown(context.Background()); err != nil </span><span class="cov0" title="0">{
++                fmt.Printf("ShutDown Error: %v", err)
++        }</span>
++        // 通知主线程handleExitSignal结束了
++        <span class="cov1" title="1">close(done)</span>
++}
++func serverHandler(w http.ResponseWriter, r *http.Request) <span class="cov10" title="5">{
++        w.Write([]byte(biz.GetRandomPair()))
++}</span>
++func runHttpServer() <span class="cov1" title="1">{
++        http.HandleFunc("/randompair", serverHandler)
++        server := &amp;http.Server{Addr: ":9999", Handler: nil}
++        go handleExitSignal(server)
++        e := server.ListenAndServe()
++        if e != nil </span><span class="cov1" title="1">{
++                if http.ErrServerClosed == e </span><span class="cov1" title="1">{
++                        fmt.Println("server closed")
++                }</span> else<span class="cov0" title="0"> {
++                        fmt.Println("server error")
++                        os.Exit(1)
++                }</span>
++        }
++        // 等待handleExitSignal完成
++        <span class="cov1" title="1">&lt;-done</span>
++}
++func main() <span class="cov1" title="1">{
++        fmt.Println("start server")
++        runHttpServer()
++        fmt.Println("stop server")
++}</pre>
++		
++		</div>
++	</body>
++	<script>
++	(function() {
++		var files = document.getElementById('files');
++		var visible;
++		files.addEventListener('change', onChange, false);
++		function select(part) {
++			if (visible)
++				visible.style.display = 'none';
++			visible = document.getElementById(part);
++			if (!visible)
++				return;
++			files.value = part;
++			visible.style.display = 'block';
++			location.hash = part;
++		}
++		function onChange() {
++			select(files.value);
++			window.scrollTo(0, 0);
++		}
++		if (location.hash != "") {
++			select(location.hash.substr(1));
++		}
++		if (!visible) {
++			select("file0");
++		}
++	})();
++	</script>
++</html>
+diff --git a/test2/src/total.out b/test2/src/total.out
+new file mode 100644
+index 0000000..c28dfbd
+--- /dev/null
++++ b/test2/src/total.out
+@@ -0,0 +1,53 @@
++mode: count
++go_test/test2/src/biz/biz.go:9.39,11.2 1 1
++go_test/test2/src/biz/biz.go:12.29,14.2 1 0
++go_test/test2/src/lib/lib.go:7.28,10.2 2 0
++go_test/test2/src/main.go:15.39,22.57 4 0
++go_test/test2/src/main.go:26.2,26.13 1 0
++go_test/test2/src/main.go:22.57,24.3 1 0
++go_test/test2/src/main.go:28.60,30.2 1 0
++go_test/test2/src/main.go:31.22,36.14 5 0
++go_test/test2/src/main.go:45.2,45.8 1 0
++go_test/test2/src/main.go:36.14,37.32 1 0
++go_test/test2/src/main.go:37.32,39.4 1 0
++go_test/test2/src/main.go:39.9,42.4 2 0
++go_test/test2/src/main.go:47.13,51.2 3 0
++go_test/test2/src/biz/biz.go:9.39,11.2 1 0
++go_test/test2/src/biz/biz.go:12.29,14.2 1 0
++go_test/test2/src/main.go:15.39,22.57 4 0
++go_test/test2/src/main.go:26.2,26.13 1 0
++go_test/test2/src/main.go:22.57,24.3 1 0
++go_test/test2/src/main.go:28.60,30.2 1 0
++go_test/test2/src/main.go:31.22,36.14 5 0
++go_test/test2/src/main.go:45.2,45.8 1 0
++go_test/test2/src/main.go:36.14,37.32 1 0
++go_test/test2/src/main.go:37.32,39.4 1 0
++go_test/test2/src/main.go:39.9,42.4 2 0
++go_test/test2/src/main.go:47.13,51.2 3 0
++go_test/test2/src/lib/lib.go:7.28,10.2 2 1
++go_test/test2/src/main.go:15.39,22.57 4 0
++go_test/test2/src/main.go:26.2,26.13 1 0
++go_test/test2/src/main.go:22.57,24.3 1 0
++go_test/test2/src/main.go:28.60,30.2 1 0
++go_test/test2/src/main.go:31.22,36.14 5 0
++go_test/test2/src/main.go:45.2,45.8 1 0
++go_test/test2/src/main.go:36.14,37.32 1 0
++go_test/test2/src/main.go:37.32,39.4 1 0
++go_test/test2/src/main.go:39.9,42.4 2 0
++go_test/test2/src/main.go:47.13,51.2 3 0
++go_test/test2/src/lib/lib.go:7.28,10.2 2 0
++go_test/test2/src/biz/biz.go:9.39,11.2 1 0
++go_test/test2/src/biz/biz.go:12.29,14.2 1 0
++go_test/test2/src/lib/lib.go:7.28,10.2 2 10
++go_test/test2/src/biz/biz.go:9.39,11.2 1 5
++go_test/test2/src/biz/biz.go:12.29,14.2 1 5
++go_test/test2/src/main.go:15.39,22.57 4 1
++go_test/test2/src/main.go:26.2,26.13 1 1
++go_test/test2/src/main.go:22.57,24.3 1 0
++go_test/test2/src/main.go:28.60,30.2 1 5
++go_test/test2/src/main.go:31.22,36.14 5 1
++go_test/test2/src/main.go:45.2,45.8 1 1
++go_test/test2/src/main.go:36.14,37.32 1 1
++go_test/test2/src/main.go:37.32,39.4 1 1
++go_test/test2/src/main.go:39.9,42.4 2 0
++go_test/test2/src/main.go:47.13,51.2 3 1
+diff --git a/test2/src/unit/coverage.html b/test2/src/unit/coverage.html
+new file mode 100644
+index 0000000..1b3b0fc
+--- /dev/null
++++ b/test2/src/unit/coverage.html
+@@ -0,0 +1,191 @@
++
++<!DOCTYPE html>
++<html>
++	<head>
++		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
++		<style>
++			body {
++				background: black;
++				color: rgb(80, 80, 80);
++			}
++			body, pre, #legend span {
++				font-family: Menlo, monospace;
++				font-weight: bold;
++			}
++			#topbar {
++				background: black;
++				position: fixed;
++				top: 0; left: 0; right: 0;
++				height: 42px;
++				border-bottom: 1px solid rgb(80, 80, 80);
++			}
++			#content {
++				margin-top: 50px;
++			}
++			#nav, #legend {
++				float: left;
++				margin-left: 10px;
++			}
++			#legend {
++				margin-top: 12px;
++			}
++			#nav {
++				margin-top: 10px;
++			}
++			#legend span {
++				margin: 0 5px;
++			}
++			.cov0 { color: rgb(192, 0, 0) }
++.cov1 { color: rgb(128, 128, 128) }
++.cov2 { color: rgb(116, 140, 131) }
++.cov3 { color: rgb(104, 152, 134) }
++.cov4 { color: rgb(92, 164, 137) }
++.cov5 { color: rgb(80, 176, 140) }
++.cov6 { color: rgb(68, 188, 143) }
++.cov7 { color: rgb(56, 200, 146) }
++.cov8 { color: rgb(44, 212, 149) }
++.cov9 { color: rgb(32, 224, 152) }
++.cov10 { color: rgb(20, 236, 155) }
++
++		</style>
++	</head>
++	<body>
++		<div id="topbar">
++			<div id="nav">
++				<select id="files">
++				
++				<option value="file0">go_test/test2/src/biz/biz.go (50.0%)</option>
++				
++				<option value="file1">go_test/test2/src/lib/lib.go (100.0%)</option>
++				
++				<option value="file2">go_test/test2/src/main.go (0.0%)</option>
++				
++				</select>
++			</div>
++			<div id="legend">
++				<span>not tracked</span>
++			
++				<span class="cov0">no coverage</span>
++				<span class="cov1">low coverage</span>
++				<span class="cov2">*</span>
++				<span class="cov3">*</span>
++				<span class="cov4">*</span>
++				<span class="cov5">*</span>
++				<span class="cov6">*</span>
++				<span class="cov7">*</span>
++				<span class="cov8">*</span>
++				<span class="cov9">*</span>
++				<span class="cov10">high coverage</span>
++			
++			</div>
++		</div>
++		<div id="content">
++		
++		<pre class="file" id="file0" style="display: none">package biz
++
++import (
++        "fmt"
++        "go_test/test2/src/lib"
++
++        //"lib"
++)
++func formatTwoNumber(a, b int) string <span class="cov8" title="1">{
++        return fmt.Sprintf("%d-%d\n", a, b)
++}</span>
++func GetRandomPair() string <span class="cov0" title="0">{
++        return formatTwoNumber(lib.GetRandomNumber(), lib.GetRandomNumber())
++}</pre>
++		
++		<pre class="file" id="file1" style="display: none">package lib
++
++import (
++        "math/rand"
++        "time"
++)
++func GetRandomNumber() int <span class="cov8" title="1">{
++        rand.Seed(time.Now().UnixNano())
++        return rand.Int()
++}</pre>
++		
++		<pre class="file" id="file2" style="display: none">package main
++import (
++        //"biz"
++        "context"
++        "fmt"
++        "go_test/test2/src/biz"
++        "net/http"
++        "os"
++        "os/signal"
++        "syscall"
++)</span>
++// gracefully exit ht<span class="cov0" title="0">tp server
++var done = make(chan bool, 1)      // 用于同步main线程和handleExitSignal线程
++var quit = make(chan os.Signal, 1) // 用于接收信号量
++func handleEx</span><span class="cov0" title="0">itSignal(s *http.Server) {
++        // 监听下面两个信号量
++        s</span>ignal.Notify(quit, syscall.SIGTERM) // kill
++        signal.Notify(quit, syscall.SIGINT)  // ctrl + c
++        // 阻塞�<span class="cov0" title="0">�待信号量
++        &lt;-quit
++        // 关闭server，引起ListenAndServe函数返回
++        if err := s.Shutdown(context.Background()); err != nil {
++        </span>        fmt.Printf("ShutDown Error: %v", err)
++        }
++        // 通知主线程handleExitSignal结束了
++        close(done)
++}
++func serverHandler(w http.ResponseWriter, r *http.Request) {
++        w.Write([]byte(biz.GetRandomPair()))
++}
++func runHttpServer() {
++        http.HandleFunc("/randompair", serverHandler)
++        server := &amp;http.Server{Addr: ":9999", Handler: nil}
++        go handleExitSignal(server)
++        e := server.ListenAndServe()
++        if e != nil {
++                if http.ErrServerClosed == e {
++                        fmt.Println("server closed")
++                } else {
++                        fmt.Println("server error")
++                        os.Exit(1)
++                }
++        }
++        // 等待handleExitSignal完成
++        &lt;-done
++}
++func main() {
++        fmt.Println("start server")
++        runHttpServer()
++        fmt.Println("stop server")
++}</pre>
++		
++		</div>
++	</body>
++	<script>
++	(function() {
++		var files = document.getElementById('files');
++		var visible;
++		files.addEventListener('change', onChange, false);
++		function select(part) {
++			if (visible)
++				visible.style.display = 'none';
++			visible = document.getElementById(part);
++			if (!visible)
++				return;
++			files.value = part;
++			visible.style.display = 'block';
++			location.hash = part;
++		}
++		function onChange() {
++			select(files.value);
++			window.scrollTo(0, 0);
++		}
++		if (location.hash != "") {
++			select(location.hash.substr(1));
++		}
++		if (!visible) {
++			select("file0");
++		}
++	})();
++	</script>
++</html>
+diff --git a/test2/src/unit/coverage.out b/test2/src/unit/coverage.out
+new file mode 100644
+index 0000000..e59244d
+--- /dev/null
++++ b/test2/src/unit/coverage.out
+@@ -0,0 +1,15 @@
++mode: count
++go_test/test2/src/lib/lib.go:7.28,10.2 2 0
++go_test/test2/src/main.go:8.60,11.2 1 0
++go_test/test2/src/main.go:12.22,15.14 3 0
++go_test/test2/src/main.go:15.14,17.3 1 0
++go_test/test2/src/main.go:19.13,23.2 3 0
++go_test/test2/src/biz/biz.go:9.39,11.2 1 1
++go_test/test2/src/biz/biz.go:12.29,14.2 1 0
++go_test/test2/src/biz/biz.go:9.39,11.2 1 0
++go_test/test2/src/biz/biz.go:12.29,14.2 1 0
++go_test/test2/src/main.go:8.60,11.2 1 0
++go_test/test2/src/main.go:12.22,15.14 3 0
++go_test/test2/src/main.go:15.14,17.3 1 0
++go_test/test2/src/main.go:19.13,23.2 3 0
++go_test/test2/src/lib/lib.go:7.28,10.2 2 1
+diff --git a/test2/src/unit/coverage.txt b/test2/src/unit/coverage.txt
+new file mode 100644
+index 0000000..973a79a
+--- /dev/null
++++ b/test2/src/unit/coverage.txt
+@@ -0,0 +1,7 @@
++go_test/test2/src/biz/biz.go:9:		formatTwoNumber	100.0%
++go_test/test2/src/biz/biz.go:12:	GetRandomPair	0.0%
++go_test/test2/src/lib/lib.go:7:		GetRandomNumber	100.0%
++go_test/test2/src/main.go:8:		serverHandler	0.0%
++go_test/test2/src/main.go:12:		runHttpServer	0.0%
++go_test/test2/src/main.go:19:		main		0.0%
++total:					(statements)	25.0%
