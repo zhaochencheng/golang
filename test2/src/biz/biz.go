@@ -2,7 +2,7 @@ package biz
 
 import (
 	"fmt"
-	"go_test/test2/src/lib"
+	"go_test/golang/test2/src/lib"
 
 	//"lib"
 )
@@ -14,4 +14,7 @@ func GetRandomPair() string {
 }
 func formatThreeNumber(a, b, c ,d int)  string {
 	return fmt.Sprintf("%d-%d+%d-%d*%d\n", a, b , c, d, a)
+}
+func GetRandomPair2() string {
+	return formatThreeNumber(lib.GetRandomNumber(), lib.GetRandomNumber(), lib.GetRandomNumber(), lib.GetRandomNumber())
 }
