@@ -3,8 +3,7 @@ import (
 	//"biz"
 	"context"
 	"fmt"
-	"go_test/golang/test2/src/biz"
-	//"../biz"
+	"go_test/test2/src/biz"
 	"net/http"
 	"os"
 	"os/signal"
@@ -28,8 +27,6 @@ func handleExitSignal(s *http.Server) {
 }
 func serverHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(biz.GetRandomPair()))
-	w.Write([]byte(biz.GetRandomPair2()))
-	w.Write([]byte("Hello,this is test!"))
 }
 func runHttpServer() {
 	http.HandleFunc("/randompair", serverHandler)

@@ -21,3 +21,10 @@ func formatThreeNumber(a, b, c ,d int)  string {
 func GetRandomPair2() string {
 	return formatThreeNumber(lib.GetRandomNumber(), lib.GetRandomNumber(), lib.GetRandomNumber(), lib.GetRandomNumber())
 }
+func formatfourNumber(a, b, c ,d int)  string {
+	print(fmt.Sprintf("%d-%d+%d-%d*%d\n", a, b , c, d, a))
+	return fmt.Sprintf("%d-%d+%d-%d*%d\n", a, b , c, d, a)
+}
+func GetRandomPair3() string {
+	return formatfourNumber(lib.GetRandomNumber(), lib.GetRandomNumber(), lib.GetRandomNumber(), lib.GetRandomNumber())
+}
